@@ -1,7 +1,33 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+import models.Conta
+import models.Titular
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+fun main() {
+
+    var alex = Titular ("Alex", "000.000.000-00")
+    val contaAlex = Conta (alex, 1000, 500.0)
+
+    println("")
+    println("Bem vindo ao Bytebank!")
+    println("Titular: ${contaAlex.titular.nome} | " +
+            "Conta: ${contaAlex.numeroConta} | " +
+            "Saldo: ${contaAlex.saldo}")
+
+
+
+
+//    val titular: String = "Alex"
+//    val numeroConta = 1000
+//    var saldo: Double = 0.0
+//
+//    println("")
+//    println("Bem vindo ao Bytebank!")
+//    println("models.Titular: $titular | models.Conta: $numeroConta | Saldo: $saldo")
+//
+//    when {
+//        saldo < 0.0 -> println("O saldo é negativo!")
+//        saldo == 0.0 -> println("O saldo é neutro!")
+//        saldo > 0.0 -> println("O saldo é positivo!")
+//    }
+
+
 }
