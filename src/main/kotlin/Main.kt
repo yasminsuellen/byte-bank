@@ -26,22 +26,42 @@ fun main() {
     println("Número da Conta: ${contaFran.numero}")
     println("Saldo da Conta: ${contaFran.saldo}")
 
+    contaAlex.deposita(50.0)
+    contaFran.deposita(200.0)
+
+    contaAlex.saca(200.0)
+    contaFran.saca(150.0)
+
 }
 
 class Conta {
     var titular: String = ""
     var numero: Int = 0
     var saldo: Double = 0.0
+
+    fun deposita(valor: Double) {
+        println("")
+        println("Depositando $valor na conta de ${this.titular}!")
+        println("Saldo anterior: ${this.saldo}")
+        this.saldo += valor
+        println("Saldo após depósito: ${this.saldo}")
+    }
+
+    fun saca(valor: Double) {
+        println("")
+        println("Sacando $valor na conta de ${this.titular}!")
+        if (this.saldo >= valor) {
+            println("Saldo anterior: ${this.saldo}")
+            saldo -= valor
+            println("Saldo após depósito: ${this.saldo}")
+        } else {
+            println("Não foi possível realizar o saque. Motivo: saldo insuficiente.")
+        }
+    }
 }
 
-860391110
 
-fun deposita (valor: Double, contaDestino: Conta){
-    println("Depositando $valor na conta de ${contaDestino.titular}!")
-    println("Saldo anterior")
-    contaDestino.saldo += valor
-}
-fun testaCopiasEReferencias () {
+fun testaCopiasEReferencias() {
     val numeroX = 10
     var numeroY = numeroX
     numeroY++
@@ -57,6 +77,7 @@ fun testaCopiasEReferencias () {
     println("Titular da conta do João -> ${contaJoao.titular}")
     println("Titular da conta da Maria -> ${contaMaria.titular}")
 }
+
 fun testaLacos() {
     var i = 0
     while (i < 5) {
@@ -71,6 +92,7 @@ fun testaLacos() {
         i++
     }
 }
+
 fun testaCondicoes(saldo: Double) {
     when {
         saldo > 0.0 -> println("A conta está positiva!")
