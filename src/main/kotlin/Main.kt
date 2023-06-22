@@ -11,10 +11,6 @@ fun main() {
     contaFran.titular = "Fran"
     contaFran.numero = 2222
 
-// AÇÕES
-    println("Depositando na conta")
-    contaAlex.saldo += 50.0
-
 // PRINTS
     println("")
     println("Conta do ${contaAlex.titular}")
@@ -26,12 +22,13 @@ fun main() {
     println("Número da Conta: ${contaFran.numero}")
     println("Saldo da Conta: ${contaFran.saldo}")
 
-    contaAlex.deposita(50.0)
+    contaAlex.deposita(100.0)
     contaFran.deposita(200.0)
 
-    contaAlex.saca(200.0)
-    contaFran.saca(150.0)
+    contaAlex.saca(20.0)
+    contaFran.saca(300.0)
 
+    contaAlex.transfere(contaFran, 200.0)
 }
 
 class Conta {
@@ -42,24 +39,30 @@ class Conta {
     fun deposita(valor: Double) {
         println("")
         println("Depositando $valor na conta de ${this.titular}!")
-        println("Saldo anterior: ${this.saldo}")
+        println("Saldo anterior ao depósito: ${this.saldo}")
         this.saldo += valor
-        println("Saldo após depósito: ${this.saldo}")
+        println("Saldo após o depósito: ${this.saldo}")
     }
 
     fun saca(valor: Double) {
         println("")
         println("Sacando $valor na conta de ${this.titular}!")
         if (this.saldo >= valor) {
-            println("Saldo anterior: ${this.saldo}")
+            println("Saldo anterior ao saque: ${this.saldo}")
             saldo -= valor
-            println("Saldo após depósito: ${this.saldo}")
+            println("Saldo após depósito na conta de destino: ${this.saldo}")
         } else {
             println("Não foi possível realizar o saque. Motivo: saldo insuficiente.")
         }
     }
-}
 
+    fun transfere(contaDestino: Conta, valor: Double) {
+        println("")
+        println("Transferindo $valor da conta de ${this.titular}, para a conta de ${contaDestino.titular}!")
+        this.saca(valor)
+        contaDestino.deposita(valor)
+    }
+}
 
 fun testaCopiasEReferencias() {
     val numeroX = 10
