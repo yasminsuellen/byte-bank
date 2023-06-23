@@ -1,105 +1,75 @@
 fun main() {
     println("")
-    println("Bem vindo ao Bytebank!")
+    println("Welcome to Bytebank!")
 
-//CONTAS
-    val contaAlex = Conta()
-    contaAlex.titular = "Alex"
-    contaAlex.numero = 1111
-
-    val contaFran = Conta()
-    contaFran.titular = "Fran"
-    contaFran.numero = 2222
-
-// PRINTS
-    println("")
-    println("Conta do ${contaAlex.titular}")
-    println("Número da Conta: ${contaAlex.numero}")
-    println("Saldo da Conta: ${contaAlex.saldo}")
-
-    println("")
-    println("Conta do ${contaFran.titular}")
-    println("Número da Conta: ${contaFran.numero}")
-    println("Saldo da Conta: ${contaFran.saldo}")
-
-    contaAlex.deposita(100.0)
-    contaFran.deposita(200.0)
-
-    contaAlex.saca(20.0)
-    contaFran.saca(300.0)
-
-    contaAlex.transfere(contaFran, 200.0)
+    accountBehaviorTest()
 }
 
-class Conta {
-    var titular: String = ""
-    var numero: Int = 0
-    var saldo: Double = 0.0
+public fun accountBehaviorTest() {
+    val accountAlex = Account(accountHolder = "Alex", accountNumber = 1111)
+    val accountFran = Account(accountHolder = "Fran", accountNumber = 2222)
 
-    fun deposita(valor: Double) {
-        println("")
-        println("Depositando $valor na conta de ${this.titular}!")
-        println("Saldo anterior ao depósito: ${this.saldo}")
-        this.saldo += valor
-        println("Saldo após o depósito: ${this.saldo}")
-    }
+    println("")
+    println("${accountAlex.accountHolder}'s bank account")
+    println("Account Number: ${accountAlex.accountNumber}")
+    println("Account Balance: ${accountAlex.accountBallance}")
 
-    fun saca(valor: Double) {
+    println("")
+    println("${accountFran.accountHolder}'s bank account")
+    println("Account Number: ${accountFran.accountNumber}")
+    println("Account Balance: ${accountFran.accountBallance}")
+
+    accountAlex.toDeposit(amount = 100.0)
+    accountFran.toDeposit(amount = 200.0)
+
+    accountAlex.toWithdraw(amount = 20.0)
+    accountFran.toWithdraw(amount = 300.0)
+
+    accountAlex.toTransfer(destinationAccount = accountFran, amount = 200.0)
+}
+
+class Account(
+    var accountHolder: String,
+    val accountNumber: Int
+) {
+    var accountBallance: Double = 0.0
+        private set
+
+    fun toDeposit(amount: Double) {
         println("")
-        println("Sacando $valor na conta de ${this.titular}!")
-        if (this.saldo >= valor) {
-            println("Saldo anterior ao saque: ${this.saldo}")
-            saldo -= valor
-            println("Saldo após depósito na conta de destino: ${this.saldo}")
+        println("Depositing $amount into ${this.accountHolder}'s account!")
+        if (amount > 0) {
+            println("Balance prior to deposit: ${this.accountBallance}")
+            this.accountBallance += amount
+            println("Balance after deposit: ${this.accountBallance}")
         } else {
-            println("Não foi possível realizar o saque. Motivo: saldo insuficiente.")
+            println("The deposit could not be processed. Reason: Insufficient deposit amount.")
         }
     }
 
-    fun transfere(contaDestino: Conta, valor: Double) {
+    fun toWithdraw(amount: Double) {
         println("")
-        println("Transferindo $valor da conta de ${this.titular}, para a conta de ${contaDestino.titular}!")
-        this.saca(valor)
-        contaDestino.deposita(valor)
+        println("Withdrawing $amount from ${this.accountHolder}'s account!")
+        if (this.accountBallance >= amount) {
+            println("Balance before withdrawal: ${this.accountBallance}")
+            accountBallance -= amount
+            println("Balance after withdrawal: ${this.accountBallance}")
+        } else {
+            println("The withdrawal could not be processed. Reason: Insufficient balance.")
+        }
     }
-}
 
-fun testaCopiasEReferencias() {
-    val numeroX = 10
-    var numeroY = numeroX
-    numeroY++
-
-    println("Numero X -> $numeroX")
-    println("Numero Y -> $numeroY")
-
-    val contaJoao = Conta()
-    contaJoao.titular = "João"
-    var contaMaria = contaJoao
-    contaMaria.titular = "Maria"
-
-    println("Titular da conta do João -> ${contaJoao.titular}")
-    println("Titular da conta da Maria -> ${contaMaria.titular}")
-}
-
-fun testaLacos() {
-    var i = 0
-    while (i < 5) {
-        val titular: String = "Alex $i"
-        val numeroConta: Int = 1000 + i
-        var saldo: Double = i + 10.0
-
+    fun toTransfer(destinationAccount: Account, amount: Double) {
         println("")
-        println("Titular: $titular")
-        println("Numero da conta: $numeroConta")
-        println("Saldo da conta: $saldo")
-        i++
+        println("Transferring $amount from ${this.accountHolder}'s account, to ${destinationAccount.accountHolder}'s account!")
+        this.toWithdraw(amount)
+        destinationAccount.toDeposit(amount)
     }
+
+
 }
 
-fun testaCondicoes(saldo: Double) {
-    when {
-        saldo > 0.0 -> println("A conta está positiva!")
-        saldo == 0.0 -> println("A conta é neutra!")
-        else -> println("A conta é negativa!")
-    }
-}
+
+
+
+
