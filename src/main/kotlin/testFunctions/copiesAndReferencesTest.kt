@@ -1,6 +1,6 @@
 package testFunctions
 
-import Account
+import models.Account
 
 fun copiesAndReferencesTest() {
     val numeroX = 10
